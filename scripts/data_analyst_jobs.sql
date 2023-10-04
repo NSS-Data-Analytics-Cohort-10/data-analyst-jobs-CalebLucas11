@@ -65,41 +65,42 @@ WHERE location IN ('CA');
 
 -- 9.	Find the name of each company and its average star rating for all companies that have more than 5000 reviews across all locations. How many companies are there with more that 5000 reviews across all locations?
 
-SELECT company, AVG(start_rating) AS avg_rating, SUM(review_count)
+SELECT DISTINCT company, AVG(start_rating) AS avg_rating, review_count
 FROM data_analyst_jobs
-WHERE review_count > 5000
-GROUP BY company;
+WHERE review_count > 5000 AND company IS NOT NULL 
+GROUP BY company, review_count;
 
--- Answer: 41
+-- Answer: 45
 
 -- 10.	Add the code to order the query in #9 from highest to lowest average star rating. Which company with more than 5000 reviews across all locations in the dataset has the highest star rating? What is that rating?
 
-SELECT company, AVG(start_rating) AS avg_rating, SUM(review_count) AS review_cnt
+SELECT DISTINCT company, AVG(start_rating) AS avg_rating, review_count
 FROM data_analyst_jobs
-WHERE review_count > 5000
-GROUP BY company
+WHERE review_count > 5000 AND company IS NOT NULL
+GROUP BY company, review_count
 ORDER BY avg_rating DESC;
 
--- Answer: Gereral Motors, 4.19
+-- Answer: American Express, 4.19
 
 -- 11.	Find all the job titles that contain the word ‘Analyst’. How many different job titles are there? 
 
 SELECT DISTINCT title
 FROM data_analyst_jobs
-WHERE title LIKE '%Analyst%';
+WHERE title ILIKE '%Analyst%';
 
--- Answer: 754
+-- Answer: 774
 
 -- 12.	How many different job titles do not contain either the word ‘Analyst’ or the word ‘Analytics’? What word do these positions have in common?
 
 SELECT DISTINCT title
 FROM data_analyst_jobs
-WHERE title NOT LIKE '%Analyst%' AND title NOT LIKE '%Analytics%';
+WHERE title NOT ILIKE '%Analyst%' AND title NOT ILIKE '%Analytics%';
 
 -- Answer: 
 
 SELECT *
-FROM data_analyst_jobs;
+FROM data_analyst_jobs
+ORDER BY company;
 
 -- **BONUS:**
 -- You want to understand which jobs requiring SQL are hard to fill. Find the number of jobs by industry (domain) that require SQL and have been posted longer than 3 weeks. 
