@@ -65,19 +65,36 @@ WHERE location IN ('CA');
 
 -- 9.	Find the name of each company and its average star rating for all companies that have more than 5000 reviews across all locations. How many companies are there with more that 5000 reviews across all locations?
 
-SELECT 
+SELECT company, AVG(start_rating) AS avg_rating, SUM(review_count)
+FROM data_analyst_jobs
+WHERE review_count > 5000
+GROUP BY company;
 
--- Answer: 
+-- Answer: 41
 
 -- 10.	Add the code to order the query in #9 from highest to lowest average star rating. Which company with more than 5000 reviews across all locations in the dataset has the highest star rating? What is that rating?
 
--- Answer: 
+SELECT company, AVG(start_rating) AS avg_rating, SUM(review_count) AS review_cnt
+FROM data_analyst_jobs
+WHERE review_count > 5000
+GROUP BY company
+ORDER BY avg_rating DESC;
+
+-- Answer: Gereral Motors, 4.19
 
 -- 11.	Find all the job titles that contain the word ‘Analyst’. How many different job titles are there? 
 
--- Answer: 
+SELECT DISTINCT title
+FROM data_analyst_jobs
+WHERE title LIKE '%Analyst%';
+
+-- Answer: 754
 
 -- 12.	How many different job titles do not contain either the word ‘Analyst’ or the word ‘Analytics’? What word do these positions have in common?
+
+SELECT DISTINCT title
+FROM data_analyst_jobs
+WHERE title NOT LIKE '%Analyst%' AND title NOT LIKE '%Analytics%';
 
 -- Answer: 
 
